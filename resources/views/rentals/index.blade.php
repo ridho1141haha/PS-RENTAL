@@ -98,7 +98,14 @@
                             </td>
                             <td class="px-4 py-3">
                                 @if($rental->status == 'completed' || ($rental->type == 'fixed' && $rental->end_time && $rental->end_time <= now()))
-                                    <span class="px-2 py-1 bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300 rounded-md text-xs font-semibold">Selesai</span>
+                                    <div class="flex items-center gap-2">
+                                        <span class="px-2 py-1 bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300 rounded-md text-xs font-semibold">Selesai</span>
+                                        @if(auth()->user()->role === 'admin')
+                                        <a href="{{ route('rentals.print', $rental->id) }}" target="_blank" class="px-2 py-1 bg-indigo-50 dark:bg-indigo-900/30 text-indigo-600 dark:text-indigo-400 hover:bg-indigo-100 dark:hover:bg-indigo-900/50 rounded-md text-xs font-semibold transition flex items-center shadow-sm border border-indigo-100 dark:border-indigo-800">
+                                            🖨️ Cetak
+                                        </a>
+                                        @endif
+                                    </div>
                                 @else
                                     <div class="flex items-center gap-2">
                                         <span class="px-2 py-1 bg-amber-100 dark:bg-amber-900/50 text-amber-700 dark:text-amber-400 rounded-md text-xs font-semibold">Berjalan</span>

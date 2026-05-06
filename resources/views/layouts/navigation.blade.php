@@ -19,11 +19,17 @@
                     <x-nav-link :href="route('devices.index')" :active="request()->routeIs('devices.*')">
                         {{ __('Devices') }}
                     </x-nav-link>
+                    <x-nav-link :href="route('reservations.index')" :active="request()->routeIs('reservations.*')">
+                        {{ __('Booking PS') }}
+                    </x-nav-link>
                     <x-nav-link :href="route('fnb.index')" :active="request()->routeIs('fnb.*')">
                         {{ __('Kasir F&B') }}
                     </x-nav-link>
                     <x-nav-link :href="route('products.index')" :active="request()->routeIs('products.*')">
                         {{ __('Stok Menu') }}
+                    </x-nav-link>
+                    <x-nav-link :href="route('reports.index')" :active="request()->routeIs('reports.index')">
+                        {{ __('Laporan Omset') }}
                     </x-nav-link>
                     @else
                     <x-nav-link :href="route('fnb.index')" :active="request()->routeIs('fnb.*')">
@@ -32,6 +38,9 @@
                     @endif
                     <x-nav-link :href="route('rentals.index')" :active="request()->routeIs('rentals.*')">
                         {{ __('Rentals') }}
+                    </x-nav-link>
+                    <x-nav-link :href="route('reservations.index')" :active="request()->routeIs('reservations.*')">
+                        {{ __('Booking PS') }}
                     </x-nav-link>
                 </div>
             </div>
@@ -47,7 +56,14 @@
                 <x-dropdown align="right" width="48">
                     <x-slot name="trigger">
                         <button class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 dark:text-gray-400 bg-white dark:bg-slate-800 hover:text-gray-700 dark:hover:text-gray-300 focus:outline-none transition ease-in-out duration-150">
-                            <div>{{ Auth::user()->name }}</div>
+                            <div class="flex items-center gap-2">
+                                <span>{{ Auth::user()->name }}</span>
+                                @if(auth()->user()->role !== 'admin')
+                                <span class="bg-amber-100 dark:bg-amber-900/50 text-amber-700 dark:text-amber-400 text-xs px-2 py-0.5 rounded-full font-bold">
+                                    🌟 {{ Auth::user()->points }} Poin
+                                </span>
+                                @endif
+                            </div>
 
                             <div class="ms-1">
                                 <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
@@ -98,11 +114,17 @@
             <x-responsive-nav-link :href="route('devices.index')" :active="request()->routeIs('devices.*')">
                 {{ __('Devices') }}
             </x-responsive-nav-link>
+            <x-responsive-nav-link :href="route('reservations.index')" :active="request()->routeIs('reservations.*')">
+                {{ __('Booking PS') }}
+            </x-responsive-nav-link>
             <x-responsive-nav-link :href="route('fnb.index')" :active="request()->routeIs('fnb.*')">
                 {{ __('Kasir F&B') }}
             </x-responsive-nav-link>
             <x-responsive-nav-link :href="route('products.index')" :active="request()->routeIs('products.*')">
                 {{ __('Stok Menu') }}
+            </x-responsive-nav-link>
+            <x-responsive-nav-link :href="route('reports.index')" :active="request()->routeIs('reports.index')">
+                {{ __('Laporan Omset') }}
             </x-responsive-nav-link>
             @else
             <x-responsive-nav-link :href="route('fnb.index')" :active="request()->routeIs('fnb.*')">
@@ -112,12 +134,22 @@
             <x-responsive-nav-link :href="route('rentals.index')" :active="request()->routeIs('rentals.*')">
                 {{ __('Rentals') }}
             </x-responsive-nav-link>
+            <x-responsive-nav-link :href="route('reservations.index')" :active="request()->routeIs('reservations.*')">
+                {{ __('Booking PS') }}
+            </x-responsive-nav-link>
         </div>
 
         <!-- Responsive Settings Options -->
         <div class="pt-4 pb-1 border-t border-gray-200 dark:border-slate-700">
             <div class="px-4">
-                <div class="font-medium text-base text-gray-800 dark:text-gray-200">{{ Auth::user()->name }}</div>
+                <div class="font-medium text-base text-gray-800 dark:text-gray-200 flex items-center gap-2">
+                    {{ Auth::user()->name }}
+                    @if(auth()->user()->role !== 'admin')
+                    <span class="bg-amber-100 dark:bg-amber-900/50 text-amber-700 dark:text-amber-400 text-xs px-2 py-0.5 rounded-full font-bold">
+                        🌟 {{ Auth::user()->points }} Poin
+                    </span>
+                    @endif
+                </div>
                 <div class="font-medium text-sm text-gray-500 dark:text-gray-400">{{ Auth::user()->email }}</div>
             </div>
 

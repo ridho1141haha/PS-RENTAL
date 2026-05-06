@@ -91,6 +91,24 @@ class FnbController extends Controller
         }
 
         $fnbTransaction->update(['status' => 'completed']);
-        return back()->with('success', 'Pesanan online atas nama ' . $fnbTransaction->guest_name . ' selesai bro! ✅');
+
+        $earnedPoints = 0;
+        if ($fnbTransaction->user) {
+            $earnedPoints = floor($fnbTransaction->total_price / 1000);
+            $fnbTransaction->user->increment('points', $earnedPoints);
+        }
+
+        return back()->with('success', 'Pesanan online atas nama ' . $fnbTransaction->guest_name . ' selesai bro! ✅ (User dapet ' . $earnedPoints . ' Poin!)');
+    }
+
+    public function print(FnbTransaction $fnbTransaction) {
+        if (auth()->user()->role !== 'admin') {
+            abort(403);
+        }
+        $fnbTransaction->load(['user', 'items.product']);
+        return view('print.receipt', [
+            'type' => 'fnb',
+            'data' => $fnbTransaction
+        ]);
     }
 }

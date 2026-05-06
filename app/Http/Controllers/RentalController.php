@@ -87,6 +87,24 @@ class RentalController extends Controller {
         $rental->device->update(['status' => 'available']);
 
         $finalPrice = $rental->type === 'fixed' ? $rental->total_price : $total_price;
-        return back()->with('success', 'Rental kelar! Gas bayar: Rp ' . number_format($finalPrice, 0, ',', '.') . ' 💰');
+        
+        // Kasih poin loyalty: Rp 1.000 = 1 Poin
+        if ($rental->user) {
+            $earnedPoints = floor($finalPrice / 1000);
+            $rental->user->increment('points', $earnedPoints);
+        }
+
+        return back()->with('success', 'Rental kelar! Gas bayar: Rp ' . number_format($finalPrice, 0, ',', '.') . ' 💰 (Dapet ' . $earnedPoints . ' Poin!)');
+    }
+
+    public function print(Rental $rental) {
+        if (auth()->user()->role !== 'admin') {
+            abort(403);
+        }
+        $rental->load(['user', 'device']);
+        return view('print.receipt', [
+            'type' => 'rental',
+            'data' => $rental
+        ]);
     }
 }

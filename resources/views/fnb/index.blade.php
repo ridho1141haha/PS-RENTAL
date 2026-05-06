@@ -154,7 +154,8 @@
                             <th class="px-4 py-3">Pembeli</th>
                             <th class="px-4 py-3">Rincian</th>
                             <th class="px-4 py-3">Metode</th>
-                            <th class="px-4 py-3 rounded-r-lg">Total</th>
+                            <th class="px-4 py-3">Total</th>
+                            <th class="px-4 py-3 rounded-r-lg">Aksi</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -175,11 +176,16 @@
                             <td class="px-4 py-3 font-bold text-slate-800 dark:text-slate-200">
                                 Rp {{ number_format($trx->total_price, 0, ',', '.') }}
                             </td>
+                            <td class="px-4 py-3">
+                                <a href="{{ route('fnb.print', $trx->id) }}" target="_blank" class="px-2 py-1 bg-indigo-50 dark:bg-indigo-900/30 text-indigo-600 dark:text-indigo-400 hover:bg-indigo-100 dark:hover:bg-indigo-900/50 rounded-md text-xs font-semibold transition inline-flex items-center shadow-sm border border-indigo-100 dark:border-indigo-800">
+                                    🖨️ Cetak
+                                </a>
+                            </td>
                         </tr>
                         @endforeach
                         @if($transactions->isEmpty())
                         <tr>
-                            <td colspan="5" class="px-4 py-6 text-center text-slate-500">Belum ada transaksi kantin.</td>
+                            <td colspan="6" class="px-4 py-6 text-center text-slate-500">Belum ada transaksi kantin.</td>
                         </tr>
                         @endif
                     </tbody>

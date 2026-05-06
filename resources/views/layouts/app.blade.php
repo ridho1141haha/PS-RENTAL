@@ -26,6 +26,19 @@
         <div class="min-h-screen bg-gray-100 dark:bg-slate-900">
             @include('layouts.navigation')
 
+            @php
+                $promoBanner = \App\Models\Setting::where('key', 'promo_text')->first()->value ?? null;
+            @endphp
+            @if($promoBanner)
+            <div class="bg-indigo-600 dark:bg-indigo-500 text-white shadow relative border-b border-indigo-700 dark:border-indigo-400">
+                <div class="max-w-7xl mx-auto py-2 px-4 sm:px-6 lg:px-8 text-center text-sm font-bold flex justify-center items-center gap-2">
+                    <span class="animate-bounce">📢</span>
+                    <span class="animate-pulse">{{ $promoBanner }}</span>
+                    <span class="animate-bounce">📢</span>
+                </div>
+            </div>
+            @endif
+
             <!-- Page Heading -->
             @isset($header)
                 <header class="bg-white dark:bg-slate-800 shadow dark:shadow-none border-b border-gray-200 dark:border-slate-700">
